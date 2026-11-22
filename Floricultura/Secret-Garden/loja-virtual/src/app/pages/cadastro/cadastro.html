@@ -1,3 +1,4 @@
+
 <main class="h-screen w-full grid grid-cols-1 lg:grid-cols-12 bg-white overflow-hidden relative">
     <div class="absolute top-3 right-3 lg:top-8 lg:right-8 z-20">
         <a routerLink="/"
@@ -53,7 +54,7 @@
                 </p>
             </div>
 
-            <form class="flex flex-col gap-2.5" (ngSubmit)="$event.preventDefault()">
+            <form class="flex flex-col gap-2.5" (ngSubmit)="cadastrar()">
 
                 <div>
                     <label for="nome" class="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-0.5">
@@ -63,7 +64,8 @@
                         <span class="absolute left-3.5 text-pink-400">
                             <i class="fa-solid fa-user text-xs" aria-hidden="true"></i>
                         </span>
-                        <input type="text" id="nome" placeholder="Seu nome e sobrenome" required
+                        <input type="text" id="nome" name="nome" [(ngModel)]="nome"
+                            placeholder="Seu nome e sobrenome" required
                             class="w-full pl-9 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-gray-800 placeholder-gray-400 text-xs outline-none transition duration-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 shadow-sm">
                     </div>
                 </div>
@@ -77,7 +79,8 @@
                         <span class="absolute left-3.5 text-pink-400">
                             <i class="fa-solid fa-envelope text-xs" aria-hidden="true"></i>
                         </span>
-                        <input type="email" id="email" placeholder="seu@email.com" required
+                        <input type="email" id="email" name="email" [(ngModel)]="email"
+                            placeholder="seu@email.com" required
                             class="w-full pl-9 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-gray-800 placeholder-gray-400 text-xs outline-none transition duration-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 shadow-sm">
                     </div>
                 </div>
@@ -122,7 +125,8 @@
                             <span class="absolute left-3.5 text-pink-400">
                                 <i class="fa-solid fa-lock text-xs" aria-hidden="true"></i>
                             </span>
-                            <input type="password" id="senha" placeholder="Mínimo 8 caracteres" required
+                            <input type="password" id="senha" name="senha" [(ngModel)]="senha"
+                                placeholder="Mínimo 8 caracteres" minlength="8" required
                                 class="w-full pl-9 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-gray-800 placeholder-gray-400 text-xs outline-none transition duration-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 shadow-sm">
                         </div>
                     </div>
@@ -136,9 +140,26 @@
                             <span class="absolute left-3.5 text-pink-400">
                                 <i class="fa-solid fa-shield-halved text-xs" aria-hidden="true"></i>
                             </span>
-                            <input type="password" id="confirmar-senha" placeholder="Repita a senha" required
+                            <input type="password" id="confirmar-senha" name="confirmarSenha"
+                                [(ngModel)]="confirmarSenha" placeholder="Repita a senha" required
                                 class="w-full pl-9 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-gray-800 placeholder-gray-400 text-xs outline-none transition duration-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 shadow-sm">
                         </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="documento"
+                        class="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-0.5">
+                        CPF
+                    </label>
+                    <div class="relative flex items-center">
+                        <span class="absolute left-3.5 text-pink-400">
+                            <i class="fa-solid fa-id-card text-xs" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" id="documento" name="documento" [(ngModel)]="documento"
+                            placeholder="Somente números" inputmode="numeric" maxlength="11"
+                            pattern="[0-9]{11}" required
+                            class="w-full pl-9 pr-3 py-2 bg-white border border-pink-200 rounded-xl text-gray-800 placeholder-gray-400 text-xs outline-none transition duration-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 shadow-sm">
                     </div>
                 </div>
 
@@ -155,7 +176,11 @@
                     </label>
                 </div>
 
-                <button type="submit" routerLink="/login"
+                <p *ngIf="mensagemErro" role="alert" class="text-xs text-red-600">
+                    {{ mensagemErro }}
+                </p>
+
+                <button type="submit" [disabled]="carregando"
                     class="w-full bg-linear-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-2.5 rounded-xl shadow-md shadow-pink-500/20 active:scale-[0.98] transition duration-200 cursor-pointer flex items-center justify-center gap-2 group text-xs">
                     <span>Criar Minha Conta</span>
                     <i class="fa-solid fa-arrow-right text-xs transition-transform duration-200 group-hover:translate-x-1"
